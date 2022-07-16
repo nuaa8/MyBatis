@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.mybatis.mapper.ParameterMapper">
+    <!--List<User> getAllUser();-->
+    <select id="getAllUser" resultType="User">
+        select * from t_user
+    </select>
+
+    <!--User getUserByUsername(String username);-->
+    <select id="getUserByUsername" resultType="User">  <!-- reultType="User",之所以这么写，是因为在mybatis-config.xml文件中，给“com.atguigu.mybatis.User”起了别名，所以可以直接引用User，否则，会出错 -->
+        <!-- select * from t_user where username= #{username}-->
+        select * from t_user where username='${username}'
+    </select>
+
+    <!--User checkLogin(String username, String password);-->
+    <select id="checkLogin" resultType="User">
+        select * from t_user where username = #{arg0} and password = #{arg1}
+--         select * from t_user where username = '${param1}' and password = '${param2}'
+    </select>
+
+    <!--User checkLoginByMap(Map<String, Object> map);-->
+    <select id="checkLoginByMap" resultType="User">
+        select * from t_user where username = #{username} and password = #{password}
+    </select>
+
+    <!--int insertUser(User user);-->
+    <insert id="insertUser">
+        insert into t_user values(null,#{username},#{password},#{age},#{sex},#{email}) <!--第一个字段 id,因为自增,所以设置为null. 后面，直接通过  属性名获取属性值 -->
+    </insert>
+
+    <!--User checkLoginByParam(@Param("username") String username, @Param("password") String password);-->
+    <select id="checkLoginByParam" resultType="User">
+        select * from t_user where username = #{username} and password = #{password}
+    </select>
+
+</mapper>
